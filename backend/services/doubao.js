@@ -87,17 +87,28 @@ export async function analyzeWithDoubao(imageDataList) {
       ...imageDataList  // imageDataList 已经是正确的格式
     ]
 
+    console.log('📤 发送请求到豆包 API...', {
+      url: `${ARK_BASE_URL}/responses`,
+      model: MODEL,
+      imageCount: imageDataList.length,
+      contentLength: inputContent.length
+    })
+    
+    const requestBody = {
+      model: MODEL,
+      input: [
+        {
+          role: 'user',
+          content: inputContent
+        }
+      ]
+    }
+    
+    console.log('📦 请求体大小:', JSON.stringify(requestBody).length, 'bytes')
+    
     const response = await axios.post(
       `${ARK_BASE_URL}/responses`,
-      {
-        model: MODEL,
-        input: [
-          {
-            role: 'user',
-            content: inputContent
-          }
-        ]
-      },
+      requestBody,
       {
         headers: {
           'Authorization': `Bearer ${ARK_API_KEY}`,
@@ -106,6 +117,8 @@ export async function analyzeWithDoubao(imageDataList) {
         timeout: 180000 // 3分钟超时（AI分析需要较长时间）
       }
     )
+    
+    console.log('✅ API 响应成功，状态码:', response.status)
 
     // 解析响应（豆包API响应格式）
     // 豆包API可能返回多种格式：
