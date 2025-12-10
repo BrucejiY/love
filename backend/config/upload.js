@@ -6,12 +6,21 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// 上传目录
-export const uploadDir = path.join(__dirname, '../uploads')
+// 上传目录 - Vercel Serverless 环境使用 /tmp
+export const uploadDir = process.env.VERCEL 
+  ? '/tmp/uploads'
+  : path.join(__dirname, '../uploads')
 
 // 配置 multer 文件上传
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: async (req, file, cb) => {
+    // 确保目录存在（Vercel 需要动态创建 /tmp 子目录）
+    const fs = await import('fs/promises')
+    try {
+      await fs.access(uploadDir)
+    } catch {
+      await fs.mkdir(uploadDir, { recursive: true })
+    }
     cb(null, uploadDir)
   },
   filename: (req, file, cb) => {

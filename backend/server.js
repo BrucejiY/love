@@ -17,11 +17,18 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 3001
 
-// 创建上传目录
-try {
-  await fs.access(uploadDir)
-} catch {
-  await fs.mkdir(uploadDir, { recursive: true })
+// 确保上传目录存在（异步初始化）
+const initializeUploadDir = async () => {
+  try {
+    await fs.access(uploadDir)
+  } catch {
+    await fs.mkdir(uploadDir, { recursive: true })
+  }
+}
+
+// 在 Vercel 环境中不需要初始化（使用 /tmp）
+if (process.env.NODE_ENV !== 'production') {
+  initializeUploadDir().catch(console.error)
 }
 
 // 中间件
@@ -59,34 +66,39 @@ app.use((err, req, res, next) => {
   })
 })
 
-// 启动服务器
-app.listen(PORT, () => {
-  console.log(`🚀 服务器运行在 http://localhost:${PORT}`)
-  console.log(`📁 上传目录: ${uploadDir}`)
-  console.log(`🤖 豆包 API: ${process.env.ARK_API_KEY ? '已配置' : '未配置 (请设置 ARK_API_KEY)'}`)
-})
+// 启动服务器（仅在非 Serverless 环境）
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 服务器运行在 http://localhost:${PORT}`)
+    console.log(`📁 上传目录: ${uploadDir}`)
+    console.log(`🤖 豆包 API: ${process.env.ARK_API_KEY ? '已配置' : '未配置 (请设置 ARK_API_KEY)'}`)
+  })
 
-// 定期清理旧文件（24小时后删除）
-const cleanupOldFiles = async () => {
-  try {
-    const files = await fs.readdir(uploadDir)
-    const now = Date.now()
-    const twentyFourHours = 24 * 60 * 60 * 1000
+  // 定期清理旧文件
+  const cleanupOldFiles = async () => {
+    try {
+      const files = await fs.readdir(uploadDir)
+      const now = Date.now()
+      const twentyFourHours = 24 * 60 * 60 * 1000
 
-    for (const file of files) {
-      const filePath = path.join(uploadDir, file)
-      const stats = await fs.stat(filePath)
-      
-      if (now - stats.mtimeMs > twentyFourHours) {
-        await fs.unlink(filePath)
-        console.log(`🗑️  已删除过期文件: ${file}`)
+      for (const file of files) {
+        const filePath = path.join(uploadDir, file)
+        const stats = await fs.stat(filePath)
+        
+        if (now - stats.mtimeMs > twentyFourHours) {
+          await fs.unlink(filePath)
+          console.log(`🗑️  已删除过期文件: ${file}`)
+        }
       }
+    } catch (err) {
+      console.error('清理文件失败:', err)
     }
-  } catch (err) {
-    console.error('清理文件失败:', err)
   }
+
+  // 每小时清理一次
+  setInterval(cleanupOldFiles, 60 * 60 * 1000)
 }
 
-// 每小时清理一次
-setInterval(cleanupOldFiles, 60 * 60 * 1000)
+// 导出 app 供 Vercel Serverless 使用
+export default app
 
