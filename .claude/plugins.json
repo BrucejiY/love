@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "lastUpdated": 1764995285552,
+  "plugins": [
+    {
+      "filename": "mcp-expert.md",
+      "type": "agent",
+      "metadata": {
+        "sourcePath": "agents/development-tools/mcp-expert.md",
+        "filename": "mcp-expert.md",
+        "name": "mcp-expert",
+        "description": "Model Context Protocol (MCP) integration specialist for the cli-tool components system. Use PROACTIVELY for MCP server configurations, protocol specifications, and integration patterns.",
+        "tools": [
+          "Read",
+          "Write",
+          "Edit"
+        ],
+        "category": "development-tools",
+        "type": "agent",
+        "size": 6893,
+        "contentHash": "ed83fc119441e8f69e00d5af80d9c77e72b0c07bcfa05a5e5141356d03e565c1",
+        "installedAt": 1764995280008,
+        "updatedAt": 1764995280008
+      }
+    },
+    {
+      "filename": "mcp-deployment-orchestrator.md",
+      "type": "agent",
+      "metadata": {
+        "sourcePath": "agents/mcp-dev-team/mcp-deployment-orchestrator.md",
+        "filename": "mcp-deployment-orchestrator.md",
+        "name": "mcp-deployment-orchestrator",
+        "description": "MCP server deployment and operations specialist. Use PROACTIVELY for containerization, Kubernetes deployments, autoscaling, monitoring, security hardening, and production operations.",
+        "tools": [
+          "Read",
+          "Write",
+          "Edit",
+          "Bash"
+        ],
+        "category": "mcp-dev-team",
+        "type": "agent",
+        "size": 6200,
+        "contentHash": "d653fe9d96c1e18f692beafe62cfe03396e4dcbc59732f2b9c77dd83d83369b8",
+        "installedAt": 1764995282751,
+        "updatedAt": 1764995282751
+      }
+    },
+    {
+      "filename": "mcp-integration-engineer.md",
+      "type": "agent",
+      "metadata": {
+        "sourcePath": "agents/mcp-dev-team/mcp-integration-engineer.md",
+        "filename": "mcp-integration-engineer.md",
+        "name": "mcp-integration-engineer",
+        "description": "MCP server integration and orchestration specialist. Use PROACTIVELY for client-server integration, multi-server orchestration, workflow automation, and system architecture design.",
+        "tools": [
+          "Read",
+          "Write",
+          "Edit",
+          "Bash"
+        ],
+        "category": "mcp-dev-team",
+        "type": "agent",
+        "size": 1385,
+        "contentHash": "406197c47c033c9ee708a99fefe79a2202d8a8a272051744b2bfc96a3790dbee",
+        "installedAt": 1764995284198,
+        "updatedAt": 1764995284198
+      }
+    },
+    {
+      "filename": "mcp-protocol-specialist.md",
+      "type": "agent",
+      "metadata": {
+        "sourcePath": "agents/mcp-dev-team/mcp-protocol-specialist.md",
+        "filename": "mcp-protocol-specialist.md",
+        "name": "mcp-protocol-specialist",
+        "description": "MCP protocol specification and standards specialist. Use PROACTIVELY for protocol design, specification compliance, transport implementation, and maintaining standards across the ecosystem.",
+        "tools": [
+          "Read",
+          "Write",
+          "Edit",
+          "WebSearch"
+        ],
+        "category": "mcp-dev-team",
+        "type": "agent",
+        "size": 1414,
+        "contentHash": "d5602ad194b31dcf74104c3168deb304d7e7965bcb38381ac79b17954fe8da96",
+        "installedAt": 1764995285551,
+        "updatedAt": 1764995285551
+      }
+    }
+  ]
+}
