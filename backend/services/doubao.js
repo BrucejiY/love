@@ -13,8 +13,15 @@ const MODEL = 'doubao-seed-1-6-thinking-250715'
  * @returns {Object} 分析结果
  */
 export async function analyzeWithDoubao(imageDataList) {
+  console.log('🔑 检查 API Key...', {
+    hasKey: !!ARK_API_KEY,
+    keyPrefix: ARK_API_KEY ? ARK_API_KEY.substring(0, 8) + '...' : 'NOT_SET',
+    baseUrl: ARK_BASE_URL,
+    model: MODEL
+  })
+  
   if (!ARK_API_KEY) {
-    throw new Error('ARK_API_KEY 未配置，请在 .env 文件中设置')
+    throw new Error('ARK_API_KEY 未配置，请在环境变量中设置')
   }
 
   // 构建提示词

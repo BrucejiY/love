@@ -51,7 +51,14 @@ app.get('/', (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'healthy',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    env: {
+      nodeEnv: process.env.NODE_ENV,
+      hasApiKey: !!process.env.ARK_API_KEY,
+      apiKeyPrefix: process.env.ARK_API_KEY ? process.env.ARK_API_KEY.substring(0, 8) + '...' : 'NOT_SET',
+      baseUrl: process.env.ARK_BASE_URL || 'NOT_SET',
+      uploadDir: uploadDir
+    }
   })
 })
 

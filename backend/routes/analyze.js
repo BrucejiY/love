@@ -47,9 +47,14 @@ router.post('/analyze', upload.array('images', 20), async (req, res) => {
     res.json(analysisResult)
 
   } catch (err) {
-    console.error('分析失败:', err)
+    console.error('❌ 分析失败详情:', {
+      message: err.message,
+      stack: err.stack,
+      response: err.response?.data
+    })
     res.status(500).json({
-      error: err.message || '分析失败，请重试'
+      error: err.message || '分析失败，请重试',
+      details: process.env.NODE_ENV === 'development' ? err.stack : undefined
     })
   }
 })
