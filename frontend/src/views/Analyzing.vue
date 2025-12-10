@@ -37,6 +37,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUploadStore } from '@/stores/upload'
 import axios from 'axios'
+import { API_BASE_URL } from '@/config/api'
 
 const router = useRouter()
 const uploadStore = useUploadStore()
@@ -70,8 +71,11 @@ const startAnalysis = async () => {
       formData.append('images', image.file, image.name)
     })
 
-    // 调用后端API
-    const response = await axios.post('/api/analyze', formData, {
+    // 调用后端API（使用环境变量配置的URL）
+    const apiUrl = `${API_BASE_URL}/analyze`
+    console.log('📡 调用 API:', apiUrl)
+    
+    const response = await axios.post(apiUrl, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
