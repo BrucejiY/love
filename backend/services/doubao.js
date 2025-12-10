@@ -137,7 +137,22 @@ export async function analyzeWithDoubao(imageDataList) {
     }
     
     // 尝试提取文本内容
-    if (response.data.output && typeof response.data.output === 'string') {
+    if (response.data.output && Array.isArray(response.data.output)) {
+      // 新格式: output 是数组
+      console.log('✅ 检测到 output 数组格式，长度:', response.data.output.length)
+      for (const item of response.data.output) {
+        if (item.type === 'reasoning' && item.summary && Array.isArray(item.summary)) {
+          for (const summaryItem of item.summary) {
+            if (summaryItem.summary_text?.text) {
+              aiResponse = summaryItem.summary_text.text
+              console.log('✅ 从 reasoning.summary 中提取文本，长度:', aiResponse.length)
+              break
+            }
+          }
+          if (aiResponse) break
+        }
+      }
+    } else if (response.data.output && typeof response.data.output === 'string') {
       // 格式1: 直接输出
       aiResponse = response.data.output
       console.log('✅ 使用 output 字段')
