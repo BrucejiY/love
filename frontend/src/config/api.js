@@ -1,8 +1,8 @@
 // API 配置
 
-// 生产环境直接使用后端 URL
+// 生产环境直接使用后端 URL（包含 /api 前缀）
 const isDev = import.meta.env.DEV
-const prodBackendUrl = 'https://love-api-sand.vercel.app'
+const prodBackendUrl = 'https://love-api-sand.vercel.app/api'
 
 // 优先使用环境变量，其次使用硬编码的生产 URL
 export const API_BASE_URL = import.meta.env.VITE_API_URL || (isDev ? 'http://localhost:3001/api' : prodBackendUrl)
